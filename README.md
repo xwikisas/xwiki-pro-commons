@@ -2,7 +2,7 @@
 
 XWiki Pro Commons is a shared repository for reusable components, utilities, and resources used in developing XWiki Pro apps.
 
-* Project Lead Pro Apps Team
+* Project Lead: Pro Apps Team
 * Documentation & Download: N/A
 * [Issue Tracker](https://github.com/xwikisas/xwiki-pro-commons/issues)
 * Communication: [Forum](https://forum.xwiki.org), [Chat](https://dev.xwiki.org/xwiki/bin/view/Community/Chat)
