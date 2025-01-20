@@ -19,7 +19,7 @@
 ## ---------------------------------------------------------------------------
 #macro (tagPicker_import)
   #picker_import
-  #set ($discard = $xwiki.jsx.use('pickers.tagpicker'))
+  #set ($discard = $xwiki.jsx.use('XWiki Pro Commons.Pickers.TagPicker'))
 #end
 
 #macro (tagPicker $parameters)

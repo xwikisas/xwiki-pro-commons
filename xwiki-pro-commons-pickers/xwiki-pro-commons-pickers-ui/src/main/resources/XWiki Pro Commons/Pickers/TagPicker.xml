@@ -20,9 +20,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.5" reference="pickers.tagpicker" locale="">
-  <web>pickers</web>
-  <name>tagpicker</name>
+<xwikidoc version="1.5" reference="XWiki Pro Commons.Pickers.TagPicker" locale="">
+  <web>XWiki Pro Commons.Pickers</web>
+  <name>TagPicker</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -31,19 +31,18 @@
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>tagpicker</title>
+  <title>TagPicker</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content>{{velocity}}
-#if ($xcontext.action == 'get')
-  #set ($tagPrefix = $request.tag)
-  #set ($escapedPrefix = $escapetool.quotedPrintable($tagPrefix))
+
+#if ($xcontext.action == 'get' || $request.debug == 'true')
+  #set ($tagPrefix = $request.tag + '%')
   #set ($query = "select tag from BaseObject as obj, DBStringListProperty as prop join prop.list as tag where
-    obj.className='XWiki.TagClass' and obj.id=prop.id.id and prop.id.name='tags' and tag like '$escapedPrefix%'")
-  ## Limit how many results we get to 15.
-  #set ($suggestions = $services.query.hql($query).setLimit(15).execute())
+      obj.className='XWiki.TagClass' and obj.id=prop.id.id and prop.id.name='tags' and tag like :prefix")
+  #set ($suggestions = $services.query.hql($query).bindValue("prefix", $tagPrefix).execute())
   ## Construct the response JSON
   #set ($result = [])
   #foreach ($suggest in $suggestions)
@@ -66,7 +65,7 @@ You are in view mode.
 {{/velocity}}
 </content>
   <object>
-    <name>pickers.tagpicker</name>
+    <name>XWiki Pro Commons.Pickers.TagPicker</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
     <guid>5dd24645-3a1d-46dd-884b-38f57806570b</guid>
@@ -160,7 +159,7 @@ You are in view mode.
   }
 });
 define('xwiki-suggestTags', ['jquery', 'xwiki-selectize'], function ($) {
-  const reference = XWiki.Model.resolve('pickers.tagpicker', XWiki.EntityType.DOCUMENT);
+  const reference = XWiki.Model.resolve('XWiki Pro Commons.Pickers.TagPicker', XWiki.EntityType.DOCUMENT);
   const URL = new XWiki.Document(reference).getURL('get');
   var getSettings = function (select) {
     return {
