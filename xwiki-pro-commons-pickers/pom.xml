@@ -22,30 +22,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.xwiki.parent</groupId>
-    <artifactId>xwikisas-parent-platform</artifactId>
-    <version>14.10-1</version>
+    <groupId>com.xwiki.commons</groupId>
+    <artifactId>xwiki-pro-commons</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>com.xwiki.commons</groupId>
-  <artifactId>xwiki-pro-commons</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>xwiki-pro-commons-pickers</artifactId>
   <packaging>pom</packaging>
-  <name>XWiki Pro commons - Parent POM</name>
-  <description>XWiki Pro Commons is a shared repository for reusable components, utilities, and resources used in developing XWiki Pro apps.</description>
-  <properties>
-    <licensing.version>1.25</licensing.version>
-  </properties>
-  <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/xwikisas/xwiki-pro-commons/issues</url>
-  </issueManagement>
-  <scm>
-    <connection>scm:git:git://github.com/xwikisas/xwiki-pro-commons.git</connection>
-    <developerConnection>scm:git:git@github.com:xwikisas/xwiki-pro-commons.git</developerConnection>
-    <url>https://github.com/xwikisas/xwiki-pro-commons/tree/master</url>
-    <tag>HEAD</tag>
-  </scm>
+  <name>XWiki Pro Commons Picker - Parent POM</name>
+  <description>Common pickers used in Pro Apps.</description>
   <modules>
-    <module>xwiki-pro-commons-pickers</module>
+    <module>xwiki-pro-commons-pickers-api</module>
+    <module>xwiki-pro-commons-pickers-ui</module>
   </modules>
 </project>
