@@ -27,14 +27,14 @@ import org.xwiki.rendering.listener.reference.ResourceType;
  *
  * @version $Id$
  */
-public class MultiSpaceTree extends ResourceReference
+public class SuggestSpacesReference extends ResourceReference
 {
     /**
      *
      * @param reference the string value of the reference
      * @param type the type of the reference
      */
-    public MultiSpaceTree(String reference, ResourceType type)
+    public SuggestSpacesReference(String reference, ResourceType type)
     {
         super(reference, type);
     }

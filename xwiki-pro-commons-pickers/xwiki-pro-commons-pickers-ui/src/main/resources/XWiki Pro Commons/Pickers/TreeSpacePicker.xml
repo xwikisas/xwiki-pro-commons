@@ -58,10 +58,6 @@
     'showSpaces': true,
     'showTerminalDocuments': false,
     'showTranslations': false })
-   #if ($request.multi == 'true')
-     #set ($discard  = $treeParameters.put('checkboxes', true))
-   #end
-
   {{html}}
     &lt;div class="modal fade space-picker-tree-modal" tabindex="-1" role="dialog" aria-hidden="true"
       style="z-index:30000"&gt;
@@ -189,20 +185,16 @@
       <code>require(['jquery'], function ($) {
   // Used to track which selector was used since there can be multiple in a single macro.
   let selectedInput = null;
-  let multiPicker = null;
   /**
    * Handles the fetching of the modal and the lazy loading of the css/js.
    */
   $(document).on('click', '.space-picker-tree', function () {
-
-    multiPicker = $(this).data().multi;
     selectedInput = $(this);
 
     const reference = XWiki.Model.resolve('XWiki Pro Commons.Pickers.TreeSpacePicker', XWiki.EntityType.DOCUMENT);
     const URL = new XWiki.Document(reference).getURL('get');
-    const queryParam = `?multi=${multiPicker}`;
 
-    $.get(`${URL}${queryParam}`)
+    $.get(URL)
       .done(function (data) {
         $('body').append(`&lt;div class='space-picker-tree-container'&gt; ${data} &lt;/div&gt;`);
         $('.space-picker-tree-modal').modal('show');
@@ -225,31 +217,18 @@
   })
 
   /**
- * Handles the select button of the modal. If a space is selected it will return it's reference otherwise it will
- * return an empty string.
- */
-
-  function single() {
+   * Handles the select button of the modal. If a space is selected it will return it's reference otherwise it will
+   * return an empty string.
+  */
+  $(document).on('click', '.space-picker-tree-modal-selector', function () {
     let selectedSpace = $('.xtree .jstree-clicked:last').attr('id');
     if (selectedSpace === 'wiki:xwiki_anchor' || selectedSpace === 'document:xwiki:Main.WebHome_anchor') {
-      return selectedSpace = "";
+       selectedSpace = "";
     }
     else {
-      return selectedSpace = selectedSpace.replace(/space:.*:/, "").replace("_anchor", "");
+        selectedSpace = selectedSpace.replace(/space:.*:/, "").replace("_anchor", "");
     }
-  }
-
-  function multi() {
-    let resultVector = $('.space-picker-tree-modal .jstree-anchor[aria-selected="true"]').map(function () {
-      return $(this).attr('id').replace(/space:.*:/, '').replace('_anchor', '');
-    }).get();
-    return resultVector.join();
-  }
-
-  $(document).on('click', '.space-picker-tree-modal-selector', function () {
-
-    let result = (multiPicker === true ? multi() : single());
-    selectedInput.val(result);
+    selectedInput.val(selectedSpace);
     $('.space-picker-tree-modal').modal('hide');
     $('.modal.macro-editor-modal.in').show();
   })

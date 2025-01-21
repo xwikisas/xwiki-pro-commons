@@ -40,9 +40,9 @@
   #suggestInput($parameters)
 #end
 
-#macro (treeSpacePicker $multi)
+#macro (treeSpacePicker)
   #pickerImport('XWiki Pro Commons.Pickers.TreeSpacePicker')
-  <input class = 'selectize-input items space-picker-tree' data-multi=$multi
+  <input class = 'selectize-input items space-picker-tree'
   #foreach ($parameter in $displayer.parameters.entrySet())
     $escapetool.xml($parameter.key)="$!escapetool.xml($parameter.value)"
   #end/>

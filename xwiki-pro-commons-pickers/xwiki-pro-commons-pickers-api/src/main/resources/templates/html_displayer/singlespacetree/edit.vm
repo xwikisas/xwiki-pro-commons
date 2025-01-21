@@ -19,4 +19,4 @@
 ## ---------------------------------------------------------------------------
 #template('documentTree_macros.vm')
 #template("pickers_macros.vm")
-#treeSpacePicker('false')
+#treeSpacePicker()
