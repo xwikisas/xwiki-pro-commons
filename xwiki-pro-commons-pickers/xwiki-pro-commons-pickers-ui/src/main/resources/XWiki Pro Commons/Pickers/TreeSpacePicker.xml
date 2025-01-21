@@ -224,11 +224,6 @@
     $('.space-picker-tree-container').remove();
   })
 
-  /**
- * Handles the select button of the modal. If a space is selected it will return it's reference otherwise it will
- * return an empty string.
- */
-
   function single() {
     let selectedSpace = $('.xtree .jstree-clicked:last').attr('id');
     if (selectedSpace === 'wiki:xwiki_anchor' || selectedSpace === 'document:xwiki:Main.WebHome_anchor') {
@@ -245,7 +240,10 @@
     }).get();
     return resultVector.join();
   }
-
+  /**
+   * Handles the select button of the modal. If a space is selected it will set the input to it's reference otherwise it will
+   * use an empty string.
+  */
   $(document).on('click', '.space-picker-tree-modal-selector', function () {
 
     let result = (multiPicker === true ? multi() : single());
