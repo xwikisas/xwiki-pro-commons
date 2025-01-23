@@ -37,12 +37,11 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content>{{velocity}}
-
 #if ($xcontext.action == 'get' || $request.debug == 'true')
   ## The space could have a parent and we take that into account.
   #set ($space =  '%' + $request.space + '%')
   #set ($query = "select distinct doc.space from XWikiDocument doc where lower(doc.space) like lower(:space)")
-  #set ($suggestions = $services.query.hql($query).bindValue("space", $space).execute())
+  #set ($suggestions = $services.query.hql($query).bindValue("space", $space).setLimit(15).execute())
   ## Construct the response JSON
   #set ($result = [])
   #foreach ($suggest in $suggestions)
@@ -60,7 +59,7 @@
   #end
   #jsonResponse($result)
 #else
-You are in view mode.
+  $services.localization.render('picker.viewmode')
 #end
 {{/velocity}}
 </content>

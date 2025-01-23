@@ -40,7 +40,8 @@
 picker.spacetree.modal.close=Close
 picker.spacetree.modal.title=Select a space.
 picker.spacetree.modal.select=Submit
-picker.spacetree.modal.notification.error=Failed to load the picker modal.</content>
+picker.spacetree.modal.notification.error=Failed to load the picker modal.
+picker.viewmode=You are in viewmode.</content>
   <object>
     <name>XWikiProCommons.Pickers.Translations</name>
     <number>0</number>

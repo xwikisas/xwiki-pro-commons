@@ -60,30 +60,29 @@
     'showTranslations': false })
 
   {{html}}
-    &lt;div class="modal fade space-picker-tree-modal" tabindex="-1" role="dialog" aria-hidden="true"
-      style="z-index:30000"&gt;
-      &lt;div class="modal-dialog" role="document"&gt;
-        &lt;div class="modal-content"&gt;
-          &lt;div class="modal-header"&gt;
-            &lt;h5 class="modal-title"&gt;
-              $escapetool.xml($services.localization.render('picker.spacetree.modal.title'))
-            &lt;/h5&gt;
-            &lt;button type="button" class="close" data-dismiss="modal" aria-label="Close"&gt;
-              &lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;
-            &lt;/button&gt;
-          &lt;/div&gt;
-          &lt;div class="modal-body"&gt;
-            #documentTree($treeParameters)
+  &lt;div class="modal fade space-picker-tree-modal" tabindex="-1" role="dialog" aria-hidden="true"
+    style="z-index:30000"&gt;
+    &lt;div class="modal-dialog" role="document"&gt;
+      &lt;div class="modal-content"&gt;
+        &lt;div class="modal-header"&gt;
+          &lt;h5 class="modal-title"&gt;
+            $escapetool.xml($services.localization.render('picker.spacetree.modal.title'))
+          &lt;/h5&gt;
+          &lt;button type="button" class="close" data-dismiss="modal" aria-label="Close"&gt;
+            &lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;
+          &lt;/button&gt;
         &lt;/div&gt;
-          &lt;div class="modal-footer"&gt;
-            &lt;button type="button" class="btn btn-secondary" data-dismiss="modal"&gt;
-              $escapetool.xml($services.localization.render('picker.spacetree.modal.close'))
-            &lt;/button&gt;
-            &lt;button type="button" class="btn btn-primary space-picker-tree-modal-selector"&gt;
-              $escapetool.xml($services.localization.render('picker.spacetree.modal.select'))
-            &lt;/button&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
+        &lt;div class="modal-body"&gt;
+          #documentTree($treeParameters)
+      &lt;/div&gt;
+      &lt;div class="modal-footer"&gt;
+        &lt;button type="button" class="btn btn-secondary" data-dismiss="modal"&gt;
+          $escapetool.xml($services.localization.render('picker.spacetree.modal.close'))
+        &lt;/button&gt;
+        &lt;button type="button" class="btn btn-primary space-picker-tree-modal-selector"&gt;
+          $escapetool.xml($services.localization.render('picker.spacetree.modal.select'))
+        &lt;/button&gt;
+      &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -190,7 +189,7 @@
   ]
 });
 
-require(['jquery', 'wiki-l10n!treeSpacePicker'], function ($, l10n) {
+require(['jquery', 'xwiki-l10n!treeSpacePicker'], function ($, l10n) {
   // Used to track which selector was used since there can be multiple in a single macro.
   let selectedInput = null;
   /**
@@ -251,7 +250,7 @@ require(['jquery', 'wiki-l10n!treeSpacePicker'], function ($, l10n) {
       <parse>0</parse>
     </property>
     <property>
-      <use>currentPage</use>
+      <use>onDemand</use>
     </property>
   </object>
 </xwikidoc>
