@@ -1,0 +1,257 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.5" reference="XWikiProCommons.Pickers.TreeSpacePicker" locale="">
+  <web>XWikiProCommons.Pickers</web>
+  <name>TreeSpacePicker</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>TreeSpacePicker</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>
+{{velocity output='false'}}
+#if ($xcontext.action == 'get' || $request.debug== 'true')
+  #template('display_macros.vm')
+  #template('documentTree_macros.vm')
+#end
+{{/velocity}}
+{{velocity}}
+#if ($xcontext.action == 'get' || $request.debug== 'true')
+  #initRequiredSkinExtensions()
+
+  #set( $treeParameters = {
+    'finder':true,
+    'showWikis': true,
+    'showWikiPrettyName': true,
+    'showDocumentTitle': true,
+    'showObjects': false,
+    'showOnlyViewable': true,
+    'showRoot': false,
+    'showSpaces': true,
+    'showTerminalDocuments': false,
+    'showTranslations': false })
+
+  {{html}}
+    &lt;div class="modal fade space-picker-tree-modal" tabindex="-1" role="dialog" aria-hidden="true"
+      style="z-index:30000"&gt;
+      &lt;div class="modal-dialog" role="document"&gt;
+        &lt;div class="modal-content"&gt;
+          &lt;div class="modal-header"&gt;
+            &lt;h5 class="modal-title"&gt;
+              $escapetool.xml($services.localization.render('picker.spacetree.modal.title'))
+            &lt;/h5&gt;
+            &lt;button type="button" class="close" data-dismiss="modal" aria-label="Close"&gt;
+              &lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;div class="modal-body"&gt;
+            #documentTree($treeParameters)
+        &lt;/div&gt;
+          &lt;div class="modal-footer"&gt;
+            &lt;button type="button" class="btn btn-secondary" data-dismiss="modal"&gt;
+              $escapetool.xml($services.localization.render('picker.spacetree.modal.close'))
+            &lt;/button&gt;
+            &lt;button type="button" class="btn btn-primary space-picker-tree-modal-selector"&gt;
+              $escapetool.xml($services.localization.render('picker.spacetree.modal.select'))
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  {{/html}}
+
+  #getRequiredSkinExtensions($requiredSkinExtensions)
+  ## We use the X-XWIKI-HTML-HEAD custom HTTP header to return the required JavaScript and CSS resources. Note that the
+  ## HTML of the UI element is returned in the response body.
+  #set ($discard = $response.setHeader('X-XWIKI-HTML-HEAD', $requiredSkinExtensions))
+#end
+{{/velocity}}</content>
+  <object>
+    <name>XWikiProCommons.Pickers.TreeSpacePicker</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>94b07fed-0710-4dd4-a191-6a21cb3450c8</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <defaultValue>long</defaultValue>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <contenttype>PureText</contenttype>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <restricted>0</restricted>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>define('treeSpacePicker', {
+  prefix: 'picker.spacetree.modal.notification.',
+  keys: [
+    'error'
+  ]
+});
+
+require(['jquery', 'wiki-l10n!treeSpacePicker'], function ($, l10n) {
+  // Used to track which selector was used since there can be multiple in a single macro.
+  let selectedInput = null;
+  /**
+   * Handles the fetching of the modal and the lazy loading of the css/js.
+   */
+  $(document).on('click', '.space-picker-tree', function () {
+    selectedInput = $(this);
+
+    const reference = XWiki.Model.resolve('XWikiProCommons.Pickers.TreeSpacePicker', XWiki.EntityType.DOCUMENT);
+    const URL = new XWiki.Document(reference).getURL('get');
+
+    $.get(URL)
+      .done(function (data) {
+        $('body').append(`&lt;div class='space-picker-tree-container'&gt; ${data} &lt;/div&gt;`);
+        $('.space-picker-tree-modal').modal('show');
+        // Initialize UI elements that are lazy loaded.
+        $(document).trigger('xwiki:dom:updated', { 'elements': $('.space-picker-tree-container').toArray() });
+      })
+      .fail(function () {
+        console.error('Failed to retrieve the space picker modal');
+        new XWiki.widgets.Notification(l10n['error'], 'error');
+      });
+  })
+
+  $(document).on('show.bs.modal', '.space-picker-tree-modal', function () {
+    $('.modal.macro-editor-modal.in').hide();
+  })
+
+  $(document).on('hidden.bs.modal', '.space-picker-tree-modal', function () {
+    $('.modal.macro-editor-modal.in').show();
+    // We remove the modal from the page
+    $('.space-picker-tree-container').remove();
+  })
+
+  /**
+   * Handles the select button of the modal. If a space is selected it will return it's reference otherwise it will
+   * return an empty string.
+  */
+  $(document).on('click', '.space-picker-tree-modal-selector', function () {
+    let selectedSpace = $('.xtree .jstree-clicked:last').attr('id');
+    if (selectedSpace === 'wiki:xwiki_anchor' || selectedSpace === 'document:xwiki:Main.WebHome_anchor') {
+       selectedSpace = "";
+    }
+    else {
+        selectedSpace = selectedSpace.replace(/space:.*:/, "").replace("_anchor", "");
+    }
+    selectedInput.val(selectedSpace);
+    $('.space-picker-tree-modal').modal('hide');
+    $('.modal.macro-editor-modal.in').show();
+  })
+});
+</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+</xwikidoc>

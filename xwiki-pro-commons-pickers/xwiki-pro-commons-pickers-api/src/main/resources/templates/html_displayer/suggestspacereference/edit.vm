@@ -17,33 +17,9 @@
 ## Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 ## 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 ## ---------------------------------------------------------------------------
-#macro (pickerImport $path)
-  #picker_import
-  #set ($discard = $xwiki.jsx.use($path))
-#end
-
-#macro (tagPicker $parameters)
-  #pickerImport('XWikiProCommons.Pickers.TagPicker')
-  #if ("$!parameters" == "")
-    #set ($parameters = {})
-  #end
-  #set ($discard = $parameters.put('class', "$!parameters.get('class') suggest-tags"))
-  #suggestInput($parameters)
-#end
-
-#macro (spacePicker $parameters)
-  #pickerImport('XWikiProCommons.Pickers.SpacePicker')
-  #if ("$!parameters" == "")
-    #set ($parameters = {})
-  #end
-  #set ($discard = $parameters.put('class', "$!parameters.get('class') suggest-spaces"))
-  #suggestInput($parameters)
-#end
-
-#macro (treeSpacePicker)
-  #pickerImport('XWikiProCommons.Pickers.TreeSpacePicker')
-  <input class = 'selectize-input items space-picker-tree'
-  #foreach ($parameter in $displayer.parameters.entrySet())
-    $escapetool.xml($parameter.key)="$!escapetool.xml($parameter.value)"
-  #end/>
-#end
+#template("pickers_macros.vm")
+#set ($parameters = {
+  'name': $displayer.parameters.name,
+  'value': ''
+})
+#spacePicker($parameters)

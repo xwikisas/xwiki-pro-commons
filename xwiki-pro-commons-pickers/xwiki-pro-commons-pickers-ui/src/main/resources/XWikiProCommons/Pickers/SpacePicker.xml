@@ -20,9 +20,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.5" reference="XWiki Pro Commons.Pickers.TagPicker" locale="">
-  <web>XWiki Pro Commons.Pickers</web>
-  <name>TagPicker</name>
+<xwikidoc version="1.5" reference="XWikiProCommons.Pickers.SpacePicker" locale="">
+  <web>XWikiProCommons.Pickers</web>
+  <name>SpacePicker</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -31,7 +31,7 @@
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>TagPicker</title>
+  <title>SpacePicker</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -39,10 +39,10 @@
   <content>{{velocity}}
 
 #if ($xcontext.action == 'get' || $request.debug == 'true')
-  #set ($tagPrefix = $request.tag + '%')
-  #set ($query = "select tag from BaseObject as obj, DBStringListProperty as prop join prop.list as tag where
-      obj.className='XWiki.TagClass' and obj.id=prop.id.id and prop.id.name='tags' and tag like :prefix")
-  #set ($suggestions = $services.query.hql($query).bindValue("prefix", $tagPrefix).execute())
+  ## The space could have a parent and we take that into account.
+  #set ($space =  '%' + $request.space + '%')
+  #set ($query = "select distinct doc.space from XWikiDocument doc where lower(doc.space) like lower(:space)")
+  #set ($suggestions = $services.query.hql($query).bindValue("space", $space).execute())
   ## Construct the response JSON
   #set ($result = [])
   #foreach ($suggest in $suggestions)
@@ -65,10 +65,10 @@ You are in view mode.
 {{/velocity}}
 </content>
   <object>
-    <name>XWiki Pro Commons.Pickers.TagPicker</name>
+    <name>XWikiProCommons.Pickers.SpacePicker</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>5dd24645-3a1d-46dd-884b-38f57806570b</guid>
+    <guid>49fd523d-3f8f-4fbd-9726-a65b54ba9055</guid>
     <class>
       <name>XWiki.JavaScriptExtension</name>
       <customClass/>
@@ -158,36 +158,36 @@ You are in view mode.
       "?v=$escapetool.url($xwiki.version)"
   }
 });
-define('xwiki-suggestTags', ['jquery', 'xwiki-selectize'], function ($) {
-  const reference = XWiki.Model.resolve('XWiki Pro Commons.Pickers.TagPicker', XWiki.EntityType.DOCUMENT);
+define('xwiki-suggestSpaces', ['jquery', 'xwiki-selectize'], function ($) {
+  const reference = XWiki.Model.resolve('XWikiProCommons.Pickers.SpacePicker', XWiki.EntityType.DOCUMENT);
   const URL = new XWiki.Document(reference).getURL('get');
   var getSettings = function (select) {
     return {
       load: function (typedText, callback) {
         $.getJSON(URL, {
-          tag: typedText,
+          space: typedText,
         }).done(callback).fail(callback);
       },
       loadSelected: function (selectedValue, callback) {
         $.getJSON(URL, {
-          tag: selectedValue,
+          space: selectedValue,
           exactMatch: true
         }).done(callback).fail(callback);
       }
     };
   };
 
-  $.fn.suggestTags = function (settings) {
+  $.fn.suggestSpaces = function (settings) {
     return this.each(function () {
       $(this).xwikiSelectize($.extend(getSettings($(this)), settings));
     });
   };
 });
 
-require(['jquery', 'xwiki-suggestTags', 'xwiki-events-bridge'], function ($) {
+require(['jquery', 'xwiki-suggestSpaces', 'xwiki-events-bridge'], function ($) {
   var init = function (event, data) {
     var container = $((data &amp;&amp; data.elements) || document);
-    container.find('.suggest-tags').suggestTags();
+    container.find('.suggest-spaces').suggestSpaces();
   };
 
   $(document).on('xwiki:dom:loaded xwiki:dom:updated', init);
@@ -195,13 +195,13 @@ require(['jquery', 'xwiki-suggestTags', 'xwiki-events-bridge'], function ($) {
 });</code>
     </property>
     <property>
-      <name/>
+      <name>SpacePicker</name>
     </property>
     <property>
       <parse>1</parse>
     </property>
     <property>
-      <use>onDemand</use>
+      <use>currentPage</use>
     </property>
   </object>
 </xwikidoc>
