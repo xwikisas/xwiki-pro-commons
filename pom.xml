@@ -28,7 +28,6 @@
   </parent>
   <groupId>com.xwiki.commons</groupId>
   <artifactId>xwiki-pro-commons</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>XWiki Pro commons - Parent POM</name>
   <description>XWiki Pro Commons is a shared repository for reusable components, utilities, and resources used in developing XWiki Pro apps.</description>
