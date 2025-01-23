@@ -23,7 +23,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 
 /**
- * Multi space tree picker.
+ * Multi space picker.
  *
  * @version $Id$
  */

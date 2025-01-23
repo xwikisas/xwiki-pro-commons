@@ -23,7 +23,7 @@
 #end
 
 #macro (tagPicker $parameters)
-  #pickerImport('XWiki Pro Commons.Pickers.TagPicker')
+  #pickerImport('XWikiProCommons.Pickers.TagPicker')
   #if ("$!parameters" == "")
     #set ($parameters = {})
   #end
@@ -32,7 +32,7 @@
 #end
 
 #macro (spacePicker $parameters)
-  #pickerImport('XWiki Pro Commons.Pickers.SpacePicker')
+  #pickerImport('XWikiProCommons.Pickers.SpacePicker')
   #if ("$!parameters" == "")
     #set ($parameters = {})
   #end
@@ -41,7 +41,7 @@
 #end
 
 #macro (treeSpacePicker)
-  #pickerImport('XWiki Pro Commons.Pickers.TreeSpacePicker')
+  #pickerImport('XWikiProCommons.Pickers.TreeSpacePicker')
   <input class = 'selectize-input items space-picker-tree'
   #foreach ($parameter in $displayer.parameters.entrySet())
     $escapetool.xml($parameter.key)="$!escapetool.xml($parameter.value)"

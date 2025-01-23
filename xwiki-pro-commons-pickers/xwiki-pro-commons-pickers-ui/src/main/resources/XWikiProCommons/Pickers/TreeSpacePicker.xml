@@ -20,8 +20,8 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.5" reference="XWiki Pro Commons.Pickers.TreeSpacePicker" locale="">
-  <web>XWiki Pro Commons.Pickers</web>
+<xwikidoc version="1.5" reference="XWikiProCommons.Pickers.TreeSpacePicker" locale="">
+  <web>XWikiProCommons.Pickers</web>
   <name>TreeSpacePicker</name>
   <language/>
   <defaultLanguage/>
@@ -58,6 +58,7 @@
     'showSpaces': true,
     'showTerminalDocuments': false,
     'showTranslations': false })
+
   {{html}}
     &lt;div class="modal fade space-picker-tree-modal" tabindex="-1" role="dialog" aria-hidden="true"
       style="z-index:30000"&gt;
@@ -95,7 +96,7 @@
 #end
 {{/velocity}}</content>
   <object>
-    <name>XWiki Pro Commons.Pickers.TreeSpacePicker</name>
+    <name>XWikiProCommons.Pickers.TreeSpacePicker</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
     <guid>94b07fed-0710-4dd4-a191-6a21cb3450c8</guid>
@@ -182,7 +183,14 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>require(['jquery'], function ($) {
+      <code>define('treeSpacePicker', {
+  prefix: 'picker.spacetree.modal.notification.',
+  keys: [
+    'error'
+  ]
+});
+
+require(['jquery', 'wiki-l10n!treeSpacePicker'], function ($, l10n) {
   // Used to track which selector was used since there can be multiple in a single macro.
   let selectedInput = null;
   /**
@@ -191,7 +199,7 @@
   $(document).on('click', '.space-picker-tree', function () {
     selectedInput = $(this);
 
-    const reference = XWiki.Model.resolve('XWiki Pro Commons.Pickers.TreeSpacePicker', XWiki.EntityType.DOCUMENT);
+    const reference = XWiki.Model.resolve('XWikiProCommons.Pickers.TreeSpacePicker', XWiki.EntityType.DOCUMENT);
     const URL = new XWiki.Document(reference).getURL('get');
 
     $.get(URL)
@@ -203,6 +211,7 @@
       })
       .fail(function () {
         console.error('Failed to retrieve the space picker modal');
+        new XWiki.widgets.Notification(l10n['error'], 'error');
       });
   })
 

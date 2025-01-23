@@ -20,8 +20,8 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.5" reference="XWiki Pro Commons.Pickers.SpacePicker" locale="">
-  <web>XWiki Pro Commons.Pickers</web>
+<xwikidoc version="1.5" reference="XWikiProCommons.Pickers.SpacePicker" locale="">
+  <web>XWikiProCommons.Pickers</web>
   <name>SpacePicker</name>
   <language/>
   <defaultLanguage/>
@@ -65,7 +65,7 @@ You are in view mode.
 {{/velocity}}
 </content>
   <object>
-    <name>XWiki Pro Commons.Pickers.SpacePicker</name>
+    <name>XWikiProCommons.Pickers.SpacePicker</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
     <guid>49fd523d-3f8f-4fbd-9726-a65b54ba9055</guid>
@@ -159,7 +159,7 @@ You are in view mode.
   }
 });
 define('xwiki-suggestSpaces', ['jquery', 'xwiki-selectize'], function ($) {
-  const reference = XWiki.Model.resolve('XWiki Pro Commons.Pickers.SpacePicker', XWiki.EntityType.DOCUMENT);
+  const reference = XWiki.Model.resolve('XWikiProCommons.Pickers.SpacePicker', XWiki.EntityType.DOCUMENT);
   const URL = new XWiki.Document(reference).getURL('get');
   var getSettings = function (select) {
     return {

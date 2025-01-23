@@ -23,7 +23,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 
 /**
- * Single tag picker.
+ * Single space picker.
  *
  * @version $Id$
  */
