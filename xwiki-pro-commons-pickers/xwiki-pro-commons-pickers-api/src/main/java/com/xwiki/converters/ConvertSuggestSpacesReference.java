@@ -17,32 +17,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xwiki.pickers;
+package com.xwiki.converters;
+
+import java.lang.reflect.Type;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.xwiki.component.annotation.Component;
+import org.xwiki.model.reference.SpaceReferenceResolver;
+import org.xwiki.properties.converter.Converter;
+
+import com.xwiki.pickers.SuggestSpacesReference;
 
 /**
- * Single tag picker.
+ * Converter for compatibility with wikimacro API.
  *
  * @version $Id$
  */
-public class TagReference
+@Singleton
+@Component
+
+public class ConvertSuggestSpacesReference implements Converter<SuggestSpacesReference>
 {
-    private final String tag;
+    @Inject
+    private SpaceReferenceResolver<String> spaceReferenceResolver;
 
-    /**
-     * @param tag the string value of the tag
-     */
-    public TagReference(String tag)
+    @Override
+    public SuggestSpacesReference convert(Type targetType, Object sourceValue)
     {
-        this.tag = tag;
-    }
-
-    /**
-     * Returns the value of the tag.
-     *
-     * @return tag value
-     */
-    public String getTag()
-    {
-        return tag;
+        return new SuggestSpacesReference(sourceValue.toString(), spaceReferenceResolver);
     }
 }

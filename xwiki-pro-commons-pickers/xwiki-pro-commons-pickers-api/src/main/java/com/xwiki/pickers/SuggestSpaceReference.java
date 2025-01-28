@@ -19,22 +19,47 @@
  */
 package com.xwiki.pickers;
 
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.model.reference.SpaceReference;
+import org.xwiki.model.reference.SpaceReferenceResolver;
 
 /**
  * Single space picker.
  *
  * @version $Id$
  */
-public class SuggestSpaceReference extends ResourceReference
+public class SuggestSpaceReference
 {
+    private final String space;
+
+    private final SpaceReferenceResolver spaceReferenceResolver;
+
     /**
      * @param reference the string value of the tag
-     * @param type the type of the reference
+     * @param resolver resolver to transform the string in a space reference
      */
-    public SuggestSpaceReference(String reference, ResourceType type)
+    public SuggestSpaceReference(String reference, SpaceReferenceResolver resolver)
     {
-        super(reference, type);
+        this.space = reference;
+        this.spaceReferenceResolver = resolver;
+    }
+
+    /**
+     * Get the spaces as a string.
+     *
+     * @return space as a string
+     */
+    public String getSpaceAsString()
+    {
+        return space;
+    }
+
+    /**
+     * Get the space as a proper reference.
+     *
+     * @return space as a SpaceReference
+     */
+    public SpaceReference getSpaceAsReference()
+    {
+        return spaceReferenceResolver.resolve(space);
     }
 }

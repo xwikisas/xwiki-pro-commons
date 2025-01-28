@@ -1,0 +1,5 @@
+com.xwiki.converters.ConverterTagReference
+com.xwiki.converters.ConverterTagsReference
+com.xwiki.converters.ConvertSingleSpaceTree
+com.xwiki.converters.ConvertSuggestSpaceReference
+com.xwiki.converters.ConvertSuggestSpacesReference
