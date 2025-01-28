@@ -19,23 +19,35 @@
  */
 package com.xwiki.pickers;
 
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceType;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Multiple tags picker.
  *
  * @version $Id$
  */
-public class TagsReference extends ResourceReference
+public class TagsReference
 {
+    private final List<String> tags;
+
     /**
-     *
-     * @param reference the string value of the reference
-     * @param type the type of the reference
+     * @param reference tag reference
      */
-    public TagsReference(String reference, ResourceType type)
+    public TagsReference(String reference)
     {
-        super(reference, type);
+        tags = new ArrayList<>();
+        Collections.addAll(tags, reference.split(","));
+    }
+
+    /**
+     * Get the tags as a list.
+     *
+     * @return list of strings
+     */
+    public List<String> getTags()
+    {
+        return tags;
     }
 }

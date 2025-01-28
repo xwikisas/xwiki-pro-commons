@@ -19,23 +19,47 @@
  */
 package com.xwiki.pickers;
 
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.model.reference.SpaceReference;
+import org.xwiki.model.reference.SpaceReferenceResolver;
 
 /**
  * Single space tree picker.
  *
  * @version $Id$
  */
-public class SingleSpaceTree extends ResourceReference
+public class SingleSpaceTree
 {
+    private final String space;
+
+    private final SpaceReferenceResolver spaceReferenceResolver;
+
     /**
-     *
      * @param reference the string value of the reference
-     * @param type the type of the reference
+     * @param resolver resolver to transform the string in a space reference
      */
-    public SingleSpaceTree(String reference, ResourceType type)
+    public SingleSpaceTree(String reference, SpaceReferenceResolver resolver)
     {
-        super(reference, type);
+        space = reference;
+        spaceReferenceResolver = resolver;
+    }
+
+    /**
+     * Get the spaces as a string.
+     *
+     * @return space as a string
+     */
+    public String getSpaceAsString()
+    {
+        return space;
+    }
+
+    /**
+     * Get the space as a proper reference.
+     *
+     * @return space as a SpaceReference
+     */
+    public SpaceReference getSpaceAsReference()
+    {
+        return spaceReferenceResolver.resolve(space);
     }
 }
