@@ -47,3 +47,25 @@
     $escapetool.xml($parameter.key)="$!escapetool.xml($parameter.value)"
   #end/>
 #end
+
+#macro (staticPickerDisplayOptions $selectedValues)
+  #foreach ($options in $parameters.options)
+    <option value="$!escapetool.xml($options.value)"#if ($selectedValues.contains($options.value))
+    selected="selected"#end >$!escapetool.xml($services.localization.render("${parameters.prefix}${options.name}"))
+    </option>
+  #end
+#end
+
+#macro (staticSelectPickerImport)
+  #picker_import
+  #set ($discard = $xwiki.jsfx.use('uicomponents/suggest/xwiki.selectize.js', true))
+#end
+
+#macro (staticSelectPicker $parameters)
+  #staticSelectPickerImport
+  #if ("$!parameters"=="")
+    #set ($parameters = {})
+  #end
+  #set ($discard = $parameters.put('class', "$!parameters.get('class') xwiki-selectize"))
+  #suggestInput($parameters, 'staticPickerDisplayOptions')
+#end
