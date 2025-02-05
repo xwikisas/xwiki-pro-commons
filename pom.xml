@@ -29,7 +29,7 @@
   <groupId>com.xwiki.commons</groupId>
   <artifactId>xwiki-pro-commons</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <name>XWiki Pro commons - Parent POM</name>
   <description>XWiki Pro Commons is a shared repository for reusable components, utilities, and resources used in developing XWiki Pro apps.</description>
   <properties>
@@ -43,7 +43,7 @@
     <connection>scm:git:git://github.com/xwikisas/xwiki-pro-commons.git</connection>
     <developerConnection>scm:git:git@github.com:xwikisas/xwiki-pro-commons.git</developerConnection>
     <url>https://github.com/xwikisas/xwiki-pro-commons/tree/master</url>
-    <tag>HEAD</tag>
+    <tag>xwiki-pro-commons-1.0.3</tag>
   </scm>
   <modules>
     <module>xwiki-pro-commons-pickers</module>
