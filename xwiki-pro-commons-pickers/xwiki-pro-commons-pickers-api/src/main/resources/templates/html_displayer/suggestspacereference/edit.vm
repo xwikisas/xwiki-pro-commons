@@ -20,6 +20,6 @@
 #template("pickers_macros.vm")
 #set ($parameters = {
   'name': $displayer.parameters.name,
-  'value': ''
+  'value': $displayer.value
 })
 #spacePicker($parameters)
