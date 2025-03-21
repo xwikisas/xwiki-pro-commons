@@ -1,0 +1,220 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.5" reference="XWikiProCommons.Pickers.WikiUserPicker" locale="">
+  <web>XWikiProCommons.Pickers</web>
+  <name>WikiUserPicker</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>XWikiProCommons.Pickers.SpacePicker</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title>WikiUserPicker</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content/>
+  <object>
+    <name>XWikiProCommons.Pickers.WikiUserPicker</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>85a405a0-1143-4726-8262-abccf3529f38</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <defaultValue>long</defaultValue>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <contenttype>PureText</contenttype>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <restricted>0</restricted>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>require.config({
+  paths: {
+    'xwiki-selectize': "$xwiki.getSkinFile('uicomponents/suggest/xwiki.selectize.js', true)" +
+        "?v=$escapetool.url($xwiki.version)",
+    'xwiki-selectize-utils': "$xwiki.getSkinFile('uicomponents/suggest/suggestUsersAndGroups.js', true)" +
+        "?v=$escapetool.url($xwiki.version)"
+  }
+});
+
+// As there is no platform implementation to allow the user to select the wiki from where the users
+// are shown, a custom implementation was made to allow this feature. This can be removed after the implementation of
+// XWIKI-23006: Add a data-search-scope for wiki selection for user/groups suggestion widget.
+define('xwiki-suggestWikiUsers', ['jquery', 'xwiki-selectize-utils', 'xwiki-selectize'], function($, utils) {
+  var getSettings = function (select, settings) {
+    const userScope = settings?.userScope ?? select.attr('data-userScope');
+    const wikiId = settings?.wikiId ?? select.attr('data-wikiId');
+    return {
+      create: true,
+      load: function (typedText, callback) {
+        loadUsers(userScope, {
+          'input': typedText,
+          'limit': 10,
+          'wikiId': wikiId
+        }).then(callback, callback);
+      },
+      loadSelected: function (selectedValue, callback) {
+        loadUsers(settings.userScope, {
+          'input': selectedValue,
+          'limit': 1,
+          'wikiId': settings.wikiId,
+          'exactMatch': true
+        }).then(callback, callback);
+      }
+    };
+  };
+
+  var loadUsers = function(userScope, params) {
+    if (userScope === 'LOCAL_AND_GLOBAL') {
+      return getLocalAndGlobalUsers(params);
+    } else if (userScope === 'GLOBAL_ONLY') {
+      return getGlobalUsers(params);
+    } else {
+      return getUsers(params);
+    }
+  };
+
+  var getLocalAndGlobalUsers = function(params) {
+    return utils.loadSuggestions([getUsers, getGlobalUsers], params);
+  };
+
+  var getGlobalUsers = function(params) {
+    return getUsers($.extend(params, {'wiki': 'global'}));
+  };
+
+  var getUsers = function(params) {
+    const URL = '/xwiki/wiki/' + params.wikiId + '/';
+    return $.getJSON(URL, $.extend(params, {
+      'xpage': 'uorgsuggest',
+      'media': 'json',
+      'uorg': 'user'
+    }));
+  };
+
+  $.fn.suggestWikiUsers = function (settings) {
+    return this.each(function () {
+      var actualOptions = $.extend(getSettings($(this), settings), settings);
+      $(this).xwikiSelectize(actualOptions);
+    });
+  };
+  return {loadUsers}
+});
+
+require(['jquery', 'xwiki-suggestWikiUsers', 'xwiki-events-bridge'], function ($) {
+  var init = function (event, data) {
+    var container = $((data &amp;&amp; data.elements) || document);
+    container.find('.suggest-wikiUsers').suggestWikiUsers();
+  };
+
+  $(document).on('xwiki:dom:loaded xwiki:dom:updated', init);
+  $(init);
+});</code>
+    </property>
+    <property>
+      <name>WikiUsersPicker</name>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+</xwikidoc>

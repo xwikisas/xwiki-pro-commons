@@ -40,6 +40,17 @@
   #suggestInput($parameters)
 #end
 
+#macro (wikiUserPicker $parameters)
+  #pickerImport('XWikiProCommons.Pickers.WikiUserPicker')
+  #if ("$!parameters" == "")
+    #set ($parameters = {})
+  #end
+  #set ($discard = $parameters.put('class', "$!parameters.get('class') suggest-wikiUsers"))
+  #set ($discard = $parameters.putIfAbsent('data-userScope', "$!services.wiki.user.userScope"))
+  #set ($discard = $parameters.putIfAbsent('data-wikiId', "$!services.wiki.getCurrentWikiId()"))
+  #suggestInput($parameters)
+#end
+
 #macro (treeSpacePicker)
   #pickerImport('XWikiProCommons.Pickers.TreeSpacePicker')
   <input class = 'selectize-input items space-picker-tree'
