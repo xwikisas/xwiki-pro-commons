@@ -137,7 +137,7 @@
 // As there is no platform implementation to allow the user to select the wiki from where the users
 // are shown, a custom implementation was made to allow this feature. This can be removed after the implementation of
 // XWIKI-23006: Add a data-search-scope for wiki selection for user/groups suggestion widget.
-define('xwiki-suggestWikiUsers', ['jquery', 'xwiki-selectize-utils', 'xwiki-selectize'], function($, utils) {
+define('xwikiPro-suggestWikiUsers', ['jquery', 'xwiki-selectize-utils', 'xwiki-selectize'], function($, utils) {
   var getSettings = function (select, settings) {
     const userScope = settings?.userScope ?? select.attr('data-userScope');
     const wikiId = settings?.wikiId ?? select.attr('data-wikiId');
@@ -197,7 +197,7 @@ define('xwiki-suggestWikiUsers', ['jquery', 'xwiki-selectize-utils', 'xwiki-sele
   return {loadUsers}
 });
 
-require(['jquery', 'xwiki-suggestWikiUsers', 'xwiki-events-bridge'], function ($) {
+require(['jquery', 'xwikiPro-suggestWikiUsers', 'xwiki-events-bridge'], function ($) {
   var init = function (event, data) {
     var container = $((data &amp;&amp; data.elements) || document);
     container.find('.suggest-wikiUsers').suggestWikiUsers();
