@@ -37,14 +37,29 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content>{{velocity}}
+#macro (fillSet $set, $results)
+  #foreach ($result in $results)
+    #set ($discard = $set.add($result))
+  #end
+#end
+###
 #if ($xcontext.action == 'get' || $request.debug == 'true')
   ## The space could have a parent and we take that into account.
   #set ($space =  '%' + $request.space + '%')
-  #set ($query = "select distinct doc.space from XWikiDocument doc where lower(doc.space) like lower(:space)")
-  #set ($suggestions = $services.query.hql($query).bindValue("space", $space).setLimit(15).execute())
+  #set ($query = "select distinct doc.space from XWikiDocument doc where lower(doc.space) like lower(:space) or lower(doc.title) like lower(:space)")
+  #set ($firstResult = $services.query.hql($query).bindValue("space", $space).setLimit(15).execute())
+  #set ($query = "select distinct space.reference from XWikiSpace space where lower(space.reference) like lower(:space)")
+  ## This query is needed to get spaces that had their webhome deleted.
+  #set ($secondResult = $services.query.hql($query).bindValue("space", $space).setLimit(15).execute())
+  #set ($suggestions = $collectiontool.getSet())
+  #fillSet($suggestions, $firstResult)
+  #fillSet($suggestions, $secondResult)
   ## Construct the response JSON
   #set ($result = [])
   #foreach ($suggest in $suggestions)
+   ## Get the title of the page.
+   #set ($webhome = "${suggest}.WebHome")
+   #set ($title = $xwiki.getDocument($webhome).getDisplayTitle())
    #set ($discard = $result.add({
      'label' : $suggest,
      'value': $suggest,
@@ -54,7 +69,7 @@
       'cssClass': '',
       'url': ''
      },
-     'hint' : ''
+     'hint' : $title
    }))
   #end
   #jsonResponse($result)
