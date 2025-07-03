@@ -49,7 +49,7 @@
   #set ($query = "select distinct doc.space from XWikiDocument doc where lower(doc.space) like lower(:space) or lower(doc.title) like lower(:space)")
   #set ($firstResult = $services.query.hql($query).bindValue("space", $space).setLimit(15).execute())
   #set ($query = "select distinct space.reference from XWikiSpace space where lower(space.reference) like lower(:space)")
-  ## This query is needed to get spaces that had their webhome deleted.
+  ## This query is needed to get spaces whose WebHome was deleted.
   #set ($secondResult = $services.query.hql($query).bindValue("space", $space).setLimit(15).execute())
   #set ($suggestions = $collectiontool.getSet())
   #fillSet($suggestions, $firstResult)
