@@ -38,7 +38,6 @@
   <hidden>true</hidden>
   <content>{{velocity}}
 #if ($xcontext.action == 'get' || $request.debug == 'true')
-  ## The space could have a parent and we take that into account.
   #set ($page =  '%' + $request.page + '%')
   #set ($query = "select doc.title, doc.fullName from XWikiDocument as doc where (lower(doc.title) like lower(:page) or lower(doc.fullName) like lower(:page)) and (doc.translation = 0 )")
   #set ($results = $services.query.hql($query).bindValue("page", $page).setLimit(15).execute())
@@ -160,7 +159,7 @@
       "?v=$escapetool.url($xwiki.version)"
   }
 });
-define('xwiki-suggestPages', ['jquery', 'xwiki-selectize'], function ($) {
+define('xwiki-suggestPagesPro', ['jquery', 'xwiki-selectize'], function ($) {
   const reference = XWiki.Model.resolve('XWikiProCommons.Pickers.PagePicker', XWiki.EntityType.DOCUMENT);
   const URL = new XWiki.Document(reference).getURL('get');
   var getSettings = function (select) {
@@ -179,17 +178,17 @@ define('xwiki-suggestPages', ['jquery', 'xwiki-selectize'], function ($) {
     };
   };
 
-  $.fn.suggestSpaces = function (settings) {
+  $.fn.suggestPages = function (settings) {
     return this.each(function () {
       $(this).xwikiSelectize($.extend(getSettings($(this)), settings));
     });
   };
 });
 
-require(['jquery', 'xwiki-suggestPages', 'xwiki-events-bridge'], function ($) {
+require(['jquery', 'xwiki-suggestPagesPro', 'xwiki-events-bridge'], function ($) {
   var init = function (event, data) {
     var container = $((data &amp;&amp; data.elements) || document);
-    container.find('.suggest-pages').suggestSpaces();
+    container.find('.suggest-pages').suggestPages();
   };
 
   $(document).on('xwiki:dom:loaded xwiki:dom:updated', init);
