@@ -24,8 +24,8 @@ define('xwiki-propertize', ['jquery'], function ($) {
     var textareaParent = textarea.parent();
     var propertiesParent = $('<div class="properties"/>');
     textareaParent.append(propertiesParent);
-    $.each(configuration.properties, function (key, value) {
-      createPropertyEntry(value, configuration, propertiesParent);
+    configuration.properties.forEach(function (prop) {
+      createPropertyEntry(prop, configuration, propertiesParent);
     });
     var addPropertyButton = $('<span class="addProperty"/>');
     addPropertyButton
@@ -40,14 +40,42 @@ define('xwiki-propertize', ['jquery'], function ($) {
     mergedConfig.content = mergedConfig.content || element.val();
     Object.assign(mergedConfig, element.data());
     mergedConfig.separator = mergedConfig.separator || '|';
-    mergedConfig.properties = mergedConfig.content.split(mergedConfig.separator);
+    mergedConfig.exportMode = mergedConfig.exportMode || 'join';
+    if (mergedConfig.exportMode == 'json') {
+
+      const result = [];
+
+      Object.entries(JSON.parse(mergedConfig.content || '[]')).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach(v => {
+            result.push({
+              key: key,
+              value: v
+            });
+          });
+        } else {
+          result.push({
+            key: key,
+            value: value
+          });
+        }
+      });
+      mergedConfig.properties = result;
+    } else {
+      mergedConfig.properties = mergedConfig.content.split(mergedConfig.separator).map(entry => {
+        var propertyValues = entry.split('=');
+        var xWikiValue = propertyValues[0] || '';
+        // Preserve potential '=' characters in the value.
+        var aDValue = entry.replace(xWikiValue + '=', '') || '';
+        return { key: xWikiValue, value: aDValue };
+      });
+    }
     return mergedConfig;
   };
   var createPropertyEntry = function (property, config, parent) {
-    var propertyValues = property.split('=');
-    var xWikiValue = propertyValues[0] || '';
+    var xWikiValue = property.key;
     // Preserve potential '=' characters in the value.
-    var aDValue = property.replace(xWikiValue + '=', '') || '';
+    var aDValue = property.value;
     var keyInput = $('<input/>').attr({
       'type': 'text',
       'class': 'key',
@@ -81,7 +109,7 @@ define('xwiki-propertize', ['jquery'], function ($) {
       updateTextarea(textarea, propertiesParent, config);
     });
     $(propertiesParent).parent().find('.addProperty').on('click', function () {
-      createPropertyEntry('', config, propertiesParent);
+      createPropertyEntry({key: '', value: ''}, config, propertiesParent);
       updateTextarea(textarea, propertiesParent, config);
     });
     $(propertiesParent).on('focus', 'input', function () {
@@ -90,19 +118,46 @@ define('xwiki-propertize', ['jquery'], function ($) {
       updateTextarea(textarea, propertiesParent, config);
     });
   };
+  var putInObject = function (obj, key, value) {
+    if (obj.hasOwnProperty(key)) {
+      if (!Array.isArray(obj[key])) {
+        obj[key] = [obj[key]];
+      }
+
+      obj[key].push(value);
+    } else {
+      obj[key] = value;
+    }
+  };
 
   var updateTextarea = function (textarea, propertiesWrapper, config) {
-    let newContent = propertiesWrapper.find(".property")
-      .filter(function () {
-        const key = $(this).find(".key").val().trim();
-        const value = $(this).find(".value").val().trim();
-        return key && value;
-      })
-      .map(function () {
-        const key = $(this).find(".key").val();
-        const value = $(this).find(".value").val();
-        return key + "=" + value;
-      }).get().join(config.separator);
+    let exportMode = (config && config.exportMode) || 'join';
+    let newContent = '';
+    if (exportMode == 'json') {
+      const result = {};
+
+      propertiesWrapper.find(".property").each(function () {
+        const key = $(this).find('.key').val();
+        const value = $(this).find('.value').val();
+
+        if (!key || !value) return;
+        putInObject(result, key, value);
+      });
+      newContent = JSON.stringify(result);
+    } else {
+      newContent = propertiesWrapper.find(".property")
+        .filter(function () {
+          const key = $(this).find(".key").val().trim();
+          const value = $(this).find(".value").val().trim();
+          return key && value;
+        })
+        .map(function () {
+          const key = $(this).find(".key").val();
+          const value = $(this).find(".value").val();
+          return key + "=" + value;
+        }).get().join(config.separator);
+    }
+
     textarea.text(newContent);
   };
 
@@ -117,6 +172,7 @@ define('xwiki-propertize', ['jquery'], function ($) {
    * {
    *   content: "smth=smthelse|dasda=wqqfd", // the initial content of the properties displayer.
    *   separator: "|", // the separator for each key-value pair.
+   *   exportMode: "join" // how the data will get serialized. Possible values: "join" or "json".
    *   addProperty: {
    *     "label": "add new entry" // The label to be used for the "Add Property" button.
    *   },
