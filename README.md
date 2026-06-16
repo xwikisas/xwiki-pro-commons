@@ -11,3 +11,13 @@ XWiki Pro Commons is a shared repository for reusable components, utilities, and
 * License: LGPL 2.1
 * Translation: N\A
 * Sonar Dashboard: N\A
+
+## Documentation
+This project aims to host common code used across multiple Pro apps. To learn more about each package, click one of the links below.
+
+* xwiki-pro-commons-api: This package contains components that are used across multiple repos.
+* [xwiki-pro-commons-pickers](xwiki-pro-commons-pickers): This macro package contains macro pickers and some 
+  generic code to easly create 
+  new ones.
+* xwiki-pro-commons-webjar: This package contains code that can be bundled as a webjar and is shared across 
+  multiple repos
