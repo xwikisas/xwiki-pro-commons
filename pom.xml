@@ -49,5 +49,6 @@
     <module>xwiki-pro-commons-pickers</module>
     <module>xwiki-pro-commons-webjar</module>
     <module>xwiki-pro-commons-api</module>
+    <module>xwiki-pro-commons-cke-plugins</module>
   </modules>
 </project>

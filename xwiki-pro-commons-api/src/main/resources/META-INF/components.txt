@@ -1,3 +1,4 @@
 com.xwiki.commons.internal.document.DefaultMacroUtils
 com.xwiki.commons.internal.document.IterativeMacroBlockFinder
 com.xwiki.commons.internal.document.RecursiveMacroBlockFinder
+com.xwiki.commons.script.ProCommonScriptService
