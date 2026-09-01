@@ -49,11 +49,10 @@
     $response.sendError(404, "Descriptor not found for macro id: $macroID")
     #break
   #end
-  #set ($json = {
+  #jsonResponse({
     'name': $descriptor.getName(),
     'description': $descriptor.getDescription()
   })
-  #jsonResponse($json)
 #end
 {{/velocity}}</content>
 </xwikidoc>
